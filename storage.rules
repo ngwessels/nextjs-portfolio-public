@@ -1,0 +1,13 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /businesses/public/{businessId}/media/files/{photoId} {
+    	allow read: if true;
+      allow write: if request.auth.token.business == businessId || request.auth.token.businessMod == businessId;
+    }
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if request.auth.uid  == userId;
+    }
+  }
+}
